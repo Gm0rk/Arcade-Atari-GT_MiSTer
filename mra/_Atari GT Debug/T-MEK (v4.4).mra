@@ -1,0 +1,118 @@
+<misterromdescription>
+    <name>T-MEK (v4.4)</name>
+    <setname>tmek44</setname>
+    <rbf>Arcade-Atari-GT-Debug</rbf>
+    <!-- The DEBUG build: Arcade-Atari-GT-Debug.rbf, from
+         Arcade-Atari-GT-Debug.qpf, with the OSD's Debug page and the
+         overlay. The same ROMs, layout and .nvm file as the
+         release .mra of this name in mra/. Written by
+         tools/check_debug_build.py (its write-mra option); do
+         not edit. -->
+    <!-- Requires a 64 MB SDRAM module or larger: the 32 MB of RLE sprite
+         data alone fills a 32 MB module before the CPU ROM, tiles, chars
+         and sound are counted. On a smaller module the download aliases
+         onto the CPU's own ROM and the core boots to a black screen. -->
+    <year>1994</year>
+    <manufacturer>Atari Games</manufacturer>
+    <category>Driving / Combat</category>
+    <mratimestamp>202609200000</mratimestamp>
+    <!-- Button names are the core's J1 string from Arcade-Atari-GT.sv,
+         read by gen_mra.py. The firmware replaces the core's names with
+         these and binds them by position, so they must match J1 exactly.
+         default is the pad button each one gets before a map is defined. -->
+    <buttons names="Quick High,Fierce High,Quick Low,Fierce Low,Start,Coin" default="Y,X,B,A,Start,Select"/>
+
+    <!-- Region layout matches agt_rom_download.sv exactly (asserted by
+         gen_mra.py's check_layout_against_rtl). cage:boot is streamed as
+         its raw file and cage as the window of its declared region that
+         the loads actually fill; both are appended after rle, because the
+         decoder splits by fixed address ranges and inserting a region
+         anywhere earlier would shift every later one. -->
+    <!-- type="merged": these are MAME merged sets, where a clone's ROMs sit
+         inside the parent zip under a subdirectory. The firmware does not
+         read this attribute; each part below names its real path in the
+         zip, plus its crc=. The MRA spec documents the attribute and other
+         tooling uses it, so it is declared. md5="none" is spec sanctioned
+         and disables the whole-ROM checksum; it stays until this core's
+         stream layout is stable. -->
+    <rom index="0" zip="tmek.zip" type="merged" md5="none">
+        <!-- maincpu: stream 0x0000000, 0x200000 bytes -->
+        <interleave output="32">
+            <part name="tmek44/0044b" crc="f7cc0590" map="0001"/>
+            <part name="tmek44/0043b" crc="9fb8e072" map="0010"/>
+            <part name="tmek44/0042b" crc="ce68a9b3" map="0100"/>
+            <part name="tmek44/0041b" crc="b71ec759" map="1000"/>
+        </interleave>
+        <part repeat="0x180000">00</part>
+
+        <!-- tiles: stream 0x0200000, 0x300000 bytes -->
+        <part name="0250" crc="56bd9f25"/>
+        <part name="0253a" crc="23e2f83d"/>
+        <part name="0251" crc="0d3b08f7"/>
+        <part name="0254a" crc="448aea87"/>
+        <part name="0252" crc="95a1c23b"/>
+        <part name="0255a" crc="f0fbb700"/>
+
+        <!-- chars: stream 0x0500000, 0x20000 bytes -->
+        <part name="0045a" crc="057a5304"/>
+
+        <!-- proms: stream 0x0520000, 0x600 bytes -->
+        <part name="0001a" crc="a70ade3f"/>
+        <part name="0001b" crc="f4768b4d"/>
+        <part name="0001c" crc="22a76ad4"/>
+
+        <!-- pad to align rle -->
+        <part repeat="0x1FA00">00</part>
+        <!-- rle: stream 0x0540000, 0x1000000 bytes -->
+        <interleave output="16">
+            <part name="0301" crc="94524b5b" map="01"/>
+            <part name="0300" crc="8367ddac" map="10"/>
+        </interleave>
+        <interleave output="16">
+            <part name="0303" crc="3ac5b24f" map="01"/>
+            <part name="0302" crc="c03f1aa7" map="10"/>
+        </interleave>
+        <interleave output="16">
+            <part name="0305" crc="b012b8e9" map="01"/>
+            <part name="0304" crc="b053ef78" map="10"/>
+        </interleave>
+        <interleave output="16">
+            <part name="0307" crc="49c1a541" map="01"/>
+            <part name="0306" crc="d086f149" map="10"/>
+        </interleave>
+        <interleave output="16">
+            <part name="0309" crc="e095ecb3" map="01"/>
+            <part name="0308" crc="97033c8a" map="10"/>
+        </interleave>
+        <interleave output="16">
+            <part name="0311" crc="05afb2dc" map="01"/>
+            <part name="0310" crc="e056a0c3" map="10"/>
+        </interleave>
+        <interleave output="16">
+            <part name="0313" crc="a8cf049d" map="01"/>
+            <part name="0312" crc="cc224dae" map="10"/>
+        </interleave>
+        <interleave output="16">
+            <part name="0315" crc="28e97d06" map="01"/>
+            <part name="0314" crc="4f01db8d" map="10"/>
+        </interleave>
+
+        <!-- pad to align cage:boot -->
+        <part repeat="0x1000000">00</part>
+        <!-- cage:boot: stream 0x2540000, 0x80000 bytes -->
+        <part name="tmek20/0078" crc="314d736f"/>
+
+        <!-- cage: NOT STREAMED for this set. loads at 0x400000 cover different lengths (0x200000, 0x400000)  one &lt;interleave> cannot express that -->
+    </rom>
+
+    <!-- rom index 1 is two bytes for agt_rom_download.sv: the game
+         (0 T-MEK, 1 Primal Rage) and the control panel (0 dedicated start,
+         1 an attack button doubles as start), from this set's
+         INPUT_PORTS(tmek). The panel byte picks agt_input_map's
+         layout. -->
+    <rom index="1"><part>00 00</part></rom>
+
+    <!-- EEPROM: eeprom_parallel_28xx, 2KB, byte wide. Without this the
+         self-test settings do not survive a power cycle. -->
+    <nvram index="2" size="2048"/>
+</misterromdescription>

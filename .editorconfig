@@ -1,0 +1,11 @@
+# Indent with tabs, shown four columns wide (also how GitHub renders them).
+root = true
+
+[*]
+indent_style = tab
+indent_size = tab
+tab_width = 4
+
+[*.{md,mra}]
+indent_style = space
+indent_size = 4

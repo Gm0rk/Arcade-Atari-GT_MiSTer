@@ -1,0 +1,105 @@
+# .gitignore -- Arcade-Atari-GT_MiSTer
+#
+# GitHub gets only what is needed to build and run the core:
+#   Arcade-Atari-GT.qpf/.qsf/.sdc/.srf/.sv, files.qip, clean.bat,
+#   post_flow.tcl (both builds' post-compile step),
+#   Arcade-Atari-GT-Debug.qpf/.qsf/.srf (the debug build),
+#   rtl/, sys/, the five mem/ images the build reads, mra/ (with
+#   mra/_Atari GT Debug/), releases/, README.md, LICENSE, .gitattributes,
+#   .editorconfig.
+# Everything below stays local. A pattern here does not untrack a file git
+# already has; that needs `git rm --cached`.
+
+# Quartus build products (clean.bat removes these)
+db
+incremental_db
+output_files
+simulation
+greybox_tmp
+hc_output
+hps_isw_handoff
+scaler
+vip
+*_sim
+.qsys_edit
+PLLJ_PLLSPE_INFO.txt
+c5_pin_model_dump.txt
+build_id.v
+*_netlist
+*.qdf
+*.qws
+*.rpt
+*.smsg
+*.summary
+*.done
+*.jdi
+*.pin
+*.sof
+*.ppf
+*.ddb
+*.cdf
+*.sopcinfo
+*.csv
+*.cmp
+*.sip
+*.spd
+*.bsf
+*.xml
+*.stp
+
+# editors, merges, OS
+*.bak
+*.orig
+*.rej
+*~
+**/.DS_Store
+__pycache__
+
+# development: benches, models, tools, synthesis experiments, their output
+tb
+tools
+sim
+syn
+build
+*.py
+*.f
+*.vvp
+*.vcd
+*.ppm
+*.png
+*.wav
+*.log
+
+# game data, never committed: ROMs and anything derived from them
+roms
+built
+vectors
+mame_src
+*.bin
+*.nvm
+*.gzf
+
+# mem/: only the images the build reads ($readmemh); bench fixtures, unused
+# images and ram_baseline.txt (read by tools only) stay local
+mem/*
+!mem/colorram_cram_zero.hex
+!mem/colorram_pens_zero.hex
+!mem/memmap_eeprom_blank_b.hex
+!mem/memmap_shared_zero_b.hex
+!mem/mo_vram_zero.hex
+
+# RTL that nothing instantiates
+rtl/video/agt_mo_vram_double.sv
+
+# working documents and research notes
+documents
+BUILD.md
+CLOSED.md
+COMMIT.md
+DECISIONS.md
+HANDOFF.md
+PROGRESS.md
+START-HERE.md
+
+# deliveries and archives dropped into the project folder
+*.zip
