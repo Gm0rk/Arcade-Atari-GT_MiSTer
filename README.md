@@ -8,8 +8,7 @@ A work in progress FPGA implementation of Atari Games' GT arcade hardware — th
 > documentation were written in collaboration with an AI assistant (Claude,
 > by Anthropic), working from MAME's source and from measurements taken on
 > the board. Every change was verified in simulation against a reference
-> model and then on a DE10-Nano before being accepted, and every decision —
-> including the wrong ones — is recorded in the project's development notes.
+> model and then on a DE10-Nano before being accepted.
 > It is disclosed here so you can make your choice to use this core accordingly.
 
 ---
@@ -136,7 +135,7 @@ hardware behaviour. Specifically:
 | `eeprom.cpp`, `eeprompar.cpp` | Aaron Giles | 28C16 behaviour: erased-state default, lock-after-write |
 | `cage.cpp` | Aaron Giles | CAGE communication registers |
 | `tms320c3x.cpp`, `320c3x_ops.ipp` | Aaron Giles | the CAGE DSP (TMS320C31) |
-| [`atarixga.cpp`, `atarixga.h`](https://github.com/mamedev/mame/commit/8c1345d8f5af207fd3fae62a928782d46f2d126b) | Andrea Bogazzi | **the 136094-0004A protection device** — the LFSR structure, clock-count table, key permutation and per-character taps, fitted to 4,177 plaintext/ciphertext pairs recovered from the PlayStation port |
+| `atarixga.cpp`, `atarixga.h` | Andrea Bogazzi | **the 136094-0004A protection device** — the LFSR structure, clock-count table, key permutation and per-character taps, fitted to 4,177 plaintext/ciphertext pairs recovered from the PlayStation port |
 | `m68020.cpp` (Musashi) | Karl Stenerud | the CPU that produced the execution trace the 68020 model was validated against |
 
 MAME is a reference for *behaviour*; no MAME code is compiled into this core.
